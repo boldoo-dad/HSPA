@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SharedService } from '../../shared.service';
 import { IProperty } from '../iproperty';
 
@@ -8,12 +9,18 @@ import { IProperty } from '../iproperty';
   styleUrls: ['./property-list.component.css'],
 })
 export class PropertyListComponent implements OnInit {
+  SellRent = 1;
   properties: Array<IProperty>;
-  constructor(private sharedService: SharedService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private sharedService: SharedService
+  ) {}
 
   ngOnInit(): void {
-    // tslint:disable-next-line: deprecation
-    this.sharedService.getProperties().subscribe(
+    if (this.route.snapshot.url.toString()) {
+      this.SellRent = 2;
+    }
+    this.sharedService.getProperties(this.SellRent).subscribe(
       (data) => {
         this.properties = data;
         console.log(data);

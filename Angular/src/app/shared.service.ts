@@ -10,13 +10,12 @@ import { Observable } from 'rxjs';
 export class SharedService {
   constructor(private http: HttpClient) {}
 
-  // tslint:disable-next-line: typedef
-  getProperties(): Observable<IProperty[]> {
+  getProperties(SellRent: number): Observable<IProperty[]> {
     return this.http.get('data/properties.json').pipe(
       map((data) => {
         const propertiesArray: Array<IProperty> = [];
         for (const id in data) {
-          if (data.hasOwnProperty(id)) {
+          if (data.hasOwnProperty(id) && data[id].SellRent === SellRent) {
             propertiesArray.push(data[id]);
           }
         }
